@@ -1,6 +1,6 @@
 import { FaStar } from "react-icons/fa";
 
-export default function TaskList({ tasks }) {
+export default function TaskList({ tasks, handleTaskEdit, handleDelete, handleFevorite }) {
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -31,9 +31,9 @@ export default function TaskList({ tasks }) {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
+            <tr key={task.id} className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
               <td>
-                {task.isFevorite ? <FaStar color="yellow" /> : <FaStar color="gray" />}
+                <FaStar onClick={() => handleFevorite(task.id)} color={task.isFevorite ? "yellow" : "gray"} />
               </td>
               <td>{task.title}</td>
               <td>
@@ -42,7 +42,7 @@ export default function TaskList({ tasks }) {
               <td>
                 <ul className="flex justify-center gap-1.5 flex-wrap">
                   {task.tags.map((tag) => (
-                    <li>
+                    <li key={tag}>  
                       <span className="inline-block h-5 whitespace-nowrap rounded-[45px] bg-[#00D991A1] px-2.5 text-sm capitalize text-[#F4F5F6]">
                         {tag}
                       </span>
@@ -53,8 +53,8 @@ export default function TaskList({ tasks }) {
               <td className="text-center">{task.priority}</td>
               <td>
                 <div className="flex items-center justify-center space-x-3">
-                  <button className="text-red-500">Delete</button>
-                  <button className="text-blue-500">Edit</button>
+                  <button onClick={() => handleDelete(task.id)} className="text-red-500">Delete</button>
+                  <button onClick={() => handleTaskEdit(task)} className="text-blue-500">Edit</button>
                 </div>
               </td>
             </tr>
